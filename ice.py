@@ -17,7 +17,7 @@ class IceAPI():
         self.user_agent = self.config["ice"]["user_agent"]
 
         self.session = requests.session()
-        self.session.headers.update({'User-Agent': self.user_agent})
+        self.session.headers.update({"User-Agent": self.user_agent})
 
         self.auth = self.do_auth()
         self.subscription_id = self.do_get_subscription_id()
@@ -32,8 +32,6 @@ class IceAPI():
         return self.do_request(url, data=data)
 
     def do_request(self, url, data=None, params=None, headers={}):
-        headers["User-Agent"] = self.user_agent
-
         if data:
             return self.session.post(url, headers=headers, params=params, json=data)
         else:
