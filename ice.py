@@ -1,9 +1,12 @@
 import configparser
 import copy
+import datetime
 import re
 
 import bs4
 import requests
+
+import utils
 
 class IceAPI():
 
@@ -54,5 +57,10 @@ class IceAPI():
         rows = div.find("tbody").findChildren("tr")
         data = []
         for row in rows:
-            data.append([column.text for column in row.findChildren("td")])
+            date, download, upload, total = [column.text for column in row.findChildren("td")]
+            date = datetime.datetime.strptime(date, "%d.%m.%Y")
+            download = utils.human_to_bytes(download)
+            upload = utils.human_to_bytes(upload)
+            total = utils.human_to_bytes(total)
+            data.append([date, download, upload, total])
         return data
